@@ -6,7 +6,7 @@ import urllib.request
 import re
 import pandas as pd
 
-제목 = '전주 재건축'
+제목 = '전주 지진'
 # 제목에 원하는것을 입력해서 파일 이름과 검색에 활용
 
 매체 = 'news'
@@ -25,7 +25,8 @@ for 시작위치 in range(1,1000,100):
     request.add_header("X-Naver-Client-Secret", client_secret)
     response = urllib.request.urlopen(request)
     rescode = response.getcode()
-    json_rt = response.read().decode('utf-8')
+    json_rt = response.read().decode('utf-8-sig')
+
     py_rt = json.loads(json_rt)
 
     data= pd.DataFrame(py_rt['items'])
@@ -42,5 +43,5 @@ for 시작위치 in range(1,1000,100):
     # 람다 이용
 
     # csv로 저장
-    data.to_csv('{}_{}_{}.csv'.format(제목,매체,시작위치))
+    data.to_csv('{}_{}_{}.csv'.format(제목,매체,시작위치),encoding='utf-8-sig')
     # 제목은 제목_매체_시작위치
